@@ -1,0 +1,56 @@
+<div class="running-line w-full uppercase text-9xl font-light bg-gradient-to-r from-secondary to-primary text-white leading-normal text-center tracking-widest whitespace-nowrap overflow-hidden">
+    <div class="inner-container">
+        <span class="inner-text">маркетинг креатив деньги</span>
+        <span class="inner-text">маркетинг креатив деньги</span>
+    </div>
+</div>
+
+<style>
+    .running-line {
+        position: relative;
+    }
+
+    .inner-container {
+        display: inline-block;
+        white-space: nowrap;
+        animation: runningText 44s linear infinite;
+    }
+
+    .inner-text {
+        display: inline-block;
+        padding-right: 50px; /* Добавляем отступ между повторениями текста */
+    }
+
+    @keyframes runningText {
+        0% {
+            transform: translate3d(0, 0, 0);
+        }
+        100% {
+            transform: translate3d(-50%, 0, 0);
+        }
+    }
+</style>
+
+<script>
+    function adjustRunningLine() {
+        const container = document.querySelector('.inner-container');
+        const text = container.querySelector('.inner-text');
+        const containerWidth = container.offsetWidth;
+        const textWidth = text.offsetWidth;
+
+        // Удаляем все элементы, кроме первых двух
+        while (container.children.length > 2) {
+            container.removeChild(container.lastChild);
+        }
+
+        // Добавляем копии текста, пока не заполним контейнер дважды
+        while (container.offsetWidth < containerWidth * 2) {
+            const newText = text.cloneNode(true);
+            container.appendChild(newText);
+        }
+    }
+
+    // Вызываем функцию при загрузке и изменении размера окна
+    window.addEventListener('load', adjustRunningLine);
+    window.addEventListener('resize', adjustRunningLine);
+</script>

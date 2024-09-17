@@ -8,6 +8,9 @@ export default {
 				secondary: '#FF0033'
 			}
 		},
+		fontFamily: {
+			sans: ['Phonk Sans', 'sans-serif'],
+		  },
 	},
 	plugins: [],
 }

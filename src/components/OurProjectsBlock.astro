@@ -1,0 +1,81 @@
+---
+import img1 from "../assets/img1.png";
+import img2 from "../assets/img2.png";
+import img3 from "../assets/img3.png";
+import img4 from "../assets/img4.png";
+---
+
+<div class="bg-black">
+  <div class="container mx-auto py-14 flex items-center">
+    <svg
+      width="20"
+      height="16"
+      viewBox="0 0 20 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M10 15.5L0 0L10 3.5L19.5 0L10 15.5Z" fill="white"></path>
+    </svg>
+    <span class="ml-2 uppercase text-xl text-white font-light"
+      >а вот наши кейсы</span
+    >
+  </div>
+</div>
+<div class="bg-black grid grid-cols-2 gap-3">
+  <div class="relative h-[520px] col-span-2 flex flex-col items-end">
+    <div
+      class="container mx-auto relative z-10 text-white flex flex-col mt-auto mb-10"
+    >
+      <span class="uppercase text-5xl tracking-wide leading-normal"
+        >Exile Show x cамокат</span
+      >
+      <p class="font-light text-2xl">11 миллионов просмотров<br />KPI 320%</p>
+    </div>
+    <img
+      src={img1.src}
+      class="absolute left-0 top-0 w-full h-full object-cover"
+      alt="bg"
+    />
+  </div>
+  <div class="relative h-[520px] flex flex-col">
+    <div class="mx-24 relative z-10 text-white flex flex-col mt-auto mb-10">
+      <span class="uppercase text-5xl tracking-wide leading-normal"
+        >Exile Show x cамокат</span
+      >
+      <p class="font-light text-2xl">11 миллионов просмотров<br />KPI 320%</p>
+    </div>
+    <img
+      src={img2.src}
+      class="absolute left-0 top-0 w-full h-full object-cover"
+      alt="bg"
+    />
+  </div>
+  <div class="relative h-[520px] flex flex-col">
+    <div class="mx-24 relative z-10 text-white flex flex-col mt-auto mb-10">
+      <span class="uppercase text-5xl tracking-wide leading-normal"
+        >Exile Show x cамокат</span
+      >
+      <p class="font-light text-2xl">11 миллионов просмотров<br />KPI 320%</p>
+    </div>
+    <img
+      src={img3.src}
+      class="absolute left-0 top-0 w-full h-full object-cover"
+      alt="bg"
+    />
+  </div>
+  <div class="relative h-[520px] col-span-2 flex flex-col items-end">
+    <div
+      class="container mx-auto relative z-10 text-white flex flex-col mt-auto mb-10"
+    >
+      <span class="uppercase text-5xl tracking-wide leading-normal"
+        >Exile Show x cамокат</span
+      >
+      <p class="font-light text-2xl">11 миллионов просмотров<br />KPI 320%</p>
+    </div>
+    <img
+      src={img4.src}
+      class="absolute left-0 top-0 w-full h-full object-cover"
+      alt="bg"
+    />
+  </div>
+</div>
