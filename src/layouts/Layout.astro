@@ -1,22 +1,188 @@
 ---
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="max-screen-size">
+    <slot />
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
+
+  </body>
 </html>
+<style is:global>
+  @font-face {
+    font-family: "Phonk Sans";
+    src:
+      url("/fonts/PhonkSans-Bold.woff2") format("woff2"),
+      url("/fonts/PhonkSans-Bold.woff") format("woff");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Phonk Sans";
+    src:
+      url("/fonts/PhonkSans-Light.woff2") format("woff2"),
+      url("/fonts/PhonkSans-Light.woff") format("woff");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+
+<script>
+  import Lenis from "lenis";
+  const lenis = new Lenis();
+
+  lenis.on("scroll", (e) => {
+    console.log(e);
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+</script>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function animateTextOnScroll() {
+    const textElements = document.querySelectorAll('.animate-on-scroll');
+
+    textElements.forEach((element) => {
+      gsap.from(element, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        scrollTrigger: {
+          trigger: element,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', animateTextOnScroll);
+</script>
+
+<style is:global>
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+</style>
+
+<style is:global lang="scss">
+  @use 'sass:math';
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  input, button, textarea, select {
+    font: inherit;
+  }
+
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  ul, ol {
+    list-style: none;
+  }
+  body {
+    font-family: "Phonk Sans", sans-serif;
+    background-color: #000;
+    color: #fff;
+  }
+
+  // .max-screen-size {
+  //   min-width: 602px;
+  // }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  @media (min-width: 575.98px) {
+    .container {
+      padding: 0 calc(50vw - 270px);
+    }
+  }
+
+  @media (min-width: 767.98px) {
+    .container {
+      padding: 0 calc(50vw - 360px);
+    }
+  }
+
+  @media (min-width: 991.98px) {
+    .container {
+      padding: 0 calc(50vw - 480px);
+    }
+  }
+
+  @media (min-width: 1199.98px) {
+    .container {
+      padding: 0 calc(50vw - 648px);
+    }
+  }
+</style>

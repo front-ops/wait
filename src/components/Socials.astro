@@ -1,0 +1,55 @@
+<div class="container socials">
+    <a href="#" class="socials__item">
+        <span class="socials__text">Телеграм</span>
+    </a>
+    <a href="#" class="socials__item">
+        <span class="socials__text">Cвязь</span>
+    </a>
+    <a href="#" class="socials__item">
+        <span class="socials__text">Ин$%аграм</span>
+    </a>
+</div>
+
+<style lang="scss">
+    .socials {
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+        padding-top: 100px;
+        padding-bottom: 100px;
+
+        // Добавляем медиа-запрос для мобильных устройств
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+    }
+
+    .socials__item {
+        font-weight: 300;
+        font-size: 50px;
+        line-height: 60px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        position: relative;
+        overflow: hidden;
+        
+        // Добавляем медиа-запрос для мобильных устройств
+        @media (max-width: 768px) {
+            font-size: 30px;
+            line-height: 40px;
+        }
+
+        &:hover::before {
+            left: 0;
+        }
+        
+        &:hover .socials__text {
+            color: transparent;
+        }
+    }
+</style>

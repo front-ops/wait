@@ -1,0 +1,178 @@
+---
+import img1 from '../assets/img/cases/img1.png';
+import img2 from '../assets/img/cases/img2.png';
+import img3 from '../assets/img/cases/img3.png';
+    import img4 from '../assets/img/cases/img4.png';
+import ArrowIcon from './icons/Arrow-icon.astro';
+---
+
+<div class="cases">
+    <div class="cases__heading container animate-on-scroll">
+        <ArrowIcon/> 
+        <span>а вот наши кейсы</span>
+    </div>
+    <div class="cases__items">
+        <div class="cases__item cases__item--image-1 container" style={'background-image: url(' + img1.src + ')'}>
+            <span class="cases__item-title">Exile Show x cамокат</span>
+            <span class="cases__item-description">11 миллионов просмотров<br>KPI 320%</span>
+        </div>
+        <div class="cases__item cases__item--image-2" style={'background-image: url(' + img2.src + ')'}>
+            <span class="cases__item-title">Geo<br>Т-банк</span>
+            <span class="cases__item-description">Кейсы и цифры</span>
+        </div>
+        <div class="cases__item cases__item--image-3" style={'background-image: url(' + img3.src + ')'}>
+            <span class="cases__item-title">Вписка<br>kata academy</span>
+            <span class="cases__item-description">10 млн просмотров<br>KPI 400%</span>
+        </div>
+        <div class="cases__item cases__item--image-4 container" style={'background-image: url(' + img4.src + ')'}>
+            <span class="cases__item-title">Здесь ваш кейс</span>
+            <span class="cases__item-description">Добавьте ваш кейс на главную</span>
+        </div>
+    </div>
+</div>
+
+
+<style lang="scss">
+    .cases {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .cases__heading {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 32px;
+    }
+
+    .cases__items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+
+        @media (max-width: 767.98px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .cases__item {
+        height: 520px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-bottom: 20px;
+        background-size: cover;
+        background-position: center 0%; // Изменено с center на center 0%
+        overflow: hidden; // Добавлено
+
+        @media (max-width: 767.98px) {
+            height: 400px;
+        }
+    }
+    .cases__item--image-1 {
+        grid-column: span 2;
+
+        @media (max-width: 767.98px) {
+            grid-column: span 1;
+        }
+    }
+    
+    .cases__item--image-2 {
+        padding-left: 15px;
+        padding-right: 20px;
+
+        @media (min-width: 575.98px) {
+            padding-left: calc(50vw - 270px);
+        }
+
+        @media (min-width: 767.98px) {
+            padding-left: calc(50vw - 360px);
+        }
+
+        @media (min-width: 991.98px) {
+            padding-left: calc(50vw - 480px);
+        }
+
+        @media (min-width: 1199.98px) {
+            padding-left: calc(50vw - 648px);
+        }
+    }
+
+    .cases__item--image-3 {
+        padding-left: 15px;
+
+        @media (min-width: 575.98px) {
+            padding-left: calc(50vw - 270px);
+        }
+
+        @media (min-width: 767.98px) {
+            padding-left: 20px;
+            padding-right: calc(50vw - 360px);
+        }
+
+        @media (min-width: 991.98px) {
+            padding-right: calc(50vw - 480px);
+        }
+
+        @media (min-width: 1199.98px) {
+            padding-right: calc(50vw - 648px);
+        }
+    }
+
+    .cases__item--image-4 {
+        grid-column: span 2;
+
+        @media (max-width: 767.98px) {
+            grid-column: span 1;
+        }
+    }
+
+    .cases__item-title {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 50px;
+        line-height: 60px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+
+        @media (max-width: 767.98px) {
+            font-size: 36px;
+            line-height: 44px;
+        }
+    }
+
+    .cases__item-description {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 24px;
+        line-height: 29px;
+
+        @media (max-width: 767.98px) {
+            font-size: 18px;
+            line-height: 22px;
+        }
+    }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const caseItems = document.querySelectorAll('.cases__item');
+
+  caseItems.forEach((item) => {
+    gsap.to(item, {
+      backgroundPositionY: "75%",
+      ease: "none",
+      scrollTrigger: {
+        trigger: item,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+  });
+</script>

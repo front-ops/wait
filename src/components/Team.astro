@@ -1,0 +1,130 @@
+---
+import ArrowIcon from "./icons/Arrow-icon.astro";
+import Semenov from "../assets/img/team/sergey-semenov.png";
+import Ivanov from "../assets/img/team/egor-ivanov.png";
+import Pakrovski from "../assets/img/team/alexandra-pakrovski.png";
+const team = [
+    {
+        firstName: "Сергей",
+        lastName: "Семенов",
+        position: "фаундер",
+        img: Semenov.src
+    },    {
+        firstName: "Александра",
+        lastName: "Пакровская",
+        position: "дизайнер",
+        img: Pakrovski.src
+    },
+    {
+        firstName: "Егор",
+        lastName: "Иванов",
+        position: "веб-разработчик",
+        img: Ivanov.src
+    },
+]
+---
+
+<div class="team-container container">
+    <div class="team-header animate-on-scroll">
+        <ArrowIcon direction="bottom" /> <span>Посмотрите, какие крутые ребята 
+            у нас работают</span>
+    </div>
+    <div class="team-list">
+        {team.map(item => (
+            <div class="team-item">
+                <img src={item.img} alt={item.firstName + " " + item.lastName} class="team-item-img" />
+                <div class="team-item-name"><span>{item.lastName}</span><span>{item.firstName}</span></div>
+                <div class="team-item-position">{item.position}</div>
+            </div>
+        ))}
+    </div>
+</div>
+
+<style lang="scss">
+    .team-container {
+        padding-top: 100px;
+        padding-bottom: 100px;
+        min-height: 100vh;
+        background: linear-gradient(193.78deg, #0A00DD 50%,  #050077 90%);
+    }
+    .team-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 19px;
+        letter-spacing: 0.05em;
+        text-transform: lowercase;
+        color: #FFFFFF;
+        margin-bottom: 150px;
+
+        // Добавляем адаптивность для мобильных устройств
+        @media (max-width: 768px) {
+            margin-bottom: 50px;
+            font-size: 14px;
+        }
+    }
+
+    .team-list {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+
+        // Изменяем сетку для планшетов и мобильных устройств
+        @media (max-width: 1024px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .team-item-img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
+
+    .team-item-name {
+        font-weight: 300;
+        font-size: 40px;
+        line-height: 37px;
+        /* or 92% */
+        text-transform: uppercase;
+        display: flex;
+        flex-direction: column;
+        color: #FFFFFF;
+        & span:first-child {
+            font-weight: 700;
+        }
+
+        // Уменьшаем размер шрифта для мобильных устройств
+        @media (max-width: 768px) {
+            font-size: 30px;
+            line-height: 28px;
+        }
+    }
+
+    // Добавляем стили для позиции сотрудника
+    .team-item-position {
+        color: #FFFFFF;
+        font-size: 16px;
+        margin-top: 5px;
+
+        @media (max-width: 768px) {
+            font-size: 14px;
+        }
+    }
+
+    // Добавляем отступы для контейнера на мобильных устройствах
+    @media (max-width: 768px) {
+        .team-container {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+    }
+</style>

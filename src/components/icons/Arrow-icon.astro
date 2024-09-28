@@ -1,0 +1,22 @@
+---
+const {width = 20, height = 16, direction = 'bottom'} = Astro.props;
+---
+
+<svg width={width} height={height} viewBox="0 0 20 16" class:list={direction} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 15.5L0 0L10 3.5L19.5 0L10 15.5Z" fill="currentColor"/>
+</svg>
+
+<style lang="scss">
+    .bottom {
+        transform: rotate(0);
+    }
+    .left {
+        transform: rotate(90deg);
+    }
+    .right {
+        transform: rotate(270deg);
+    }
+    .top {
+        transform: rotate(180deg);
+    }
+</style>

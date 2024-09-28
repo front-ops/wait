@@ -1,0 +1,235 @@
+---
+import ArrowIcon from "./icons/Arrow-icon.astro";
+
+const kpiValue = "172%";
+const clients = [
+`Т-банк`, 'Самокат', 'Lamoda', 'Skillfactory', 'Центральный университет Skillbox', 'Останкино', 'Tasty Coffee', 'Skyeng', 'DNS Kata Academy', 'TNT Premiere', 'Flor2You', 'Aliexpress', 'zewa'
+];
+---
+
+<div class="gradient-container">
+  <spline-viewer class="spline-viewer" url="https://prod.spline.design/J9MgF5VTeibor4yk/scene.splinecode"></spline-viewer>
+  <div class="kpi-container container">
+    <p class="kpi-header">
+      <ArrowIcon direction="right" /> Обычно, мы расстраиваемся,<br>
+      когда KPI по размещениям выходит в месяц 100%
+    </p>
+    <h2 class="kpi-reason">Потому что наш средний KPI</h2>
+    <div class="kpi-value" id="kpiValue">100</div>
+    <span class="kpi-period">в месяц</span>
+  </div>
+  <div class="clients-container container">
+    <div class="clients-header">
+      <ArrowIcon direction="bottom" /> Клиенты
+    </div>
+
+    <div class="clients-list">
+      {clients.map((client, index) => (
+        <span class="client-item" data-client-index={index}>{client}</span>
+      ))}
+      <span class="client-item client-item--your-brand" data-client-index={clients.length}>Ваш бренд</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const kpiElement = document.getElementById("kpiValue");
+  const kpiTargetValue = parseInt(kpiElement.textContent);
+
+  gsap.to(kpiElement, {
+    innerHTML: 172,
+    duration: 2,
+    ease: "power1.out",
+    snap: { innerHTML: 1 },
+    scrollTrigger: {
+      trigger: kpiElement,
+      start: "top 80%",
+      end: "bottom 20%",
+      toggleActions: "play none none"
+    },
+    onUpdate: function() {
+      kpiElement.innerHTML = Math.round(this.targets()[0].innerHTML) + "%";
+    }
+  });
+
+  // Анимация списка клиентов
+  const clientItems = gsap.utils.toArray('.client-item');
+  
+  clientItems.forEach((item, index) => {
+    gsap.set(item, { opacity: 0, y: 20 });
+    
+    gsap.to(item, {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      scrollTrigger: {
+        trigger: '.clients-list',
+        start: 'top 80%',
+        end: 'bottom 20%',
+        toggleActions: 'play none none'
+      },
+      delay: index * 0.1
+    });
+  });
+</script>
+
+<style lang="scss">
+  .gradient-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(193.78deg, #000000 25%, #000933 60%, #000000 90%);
+  }
+  .spline-viewer {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .kpi-container {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+  }
+
+  .kpi-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin-bottom: 80px;
+
+    @media (max-width: 768px) {
+      font-size: 16px;
+      line-height: 20px;
+      margin-bottom: 40px;
+    }
+  }
+
+  .kpi-reason {
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 48px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+
+        @media (max-width: 768px) {
+          font-size: 30px;
+          line-height: 36px;
+        }
+  }
+
+  .kpi-value {
+        font-weight: 700;
+        font-size: 240px;
+        line-height: 1;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+
+        /* Gradi */
+        background: linear-gradient(90deg, #FF0033 0%, #0A00DD 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+
+        @media (max-width: 1024px) {
+          font-size: 180px;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 60px;
+        }
+  }
+
+  .kpi-period {
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 48px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        margin-left: auto;
+
+        @media (max-width: 768px) {
+          font-size: 30px;
+          line-height: 36px;
+        }
+  }
+
+  .clients-container {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+  }
+
+  .clients-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    margin-bottom: 40px;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+      line-height: 15px;
+      margin-bottom: 30px;
+    }
+  }
+
+  .clients-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .client-item {
+    font-size: 32px;
+    line-height: 56px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-right: 1em;
+    &:nth-child(2n) {
+      font-weight: 300;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+    opacity: 0; // Начальное состояние - невидимый
+
+    @media (max-width: 1024px) {
+      font-size: 28px;
+      line-height: 48px;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+      line-height: 40px;
+    }
+  }
+  .client-item--your-brand {
+    display: block;
+    vertical-align: middle;
+    padding: 0 16px;
+    border: 2px solid #FFFFFF;
+  }
+</style>

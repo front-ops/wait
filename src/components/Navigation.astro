@@ -1,0 +1,64 @@
+---
+const navigation = [
+  {
+    name: "дизайн",
+    link: "#design",
+  },
+  {
+    name: "инфлюенс",
+    link: "#influencer",
+  },
+  {
+    name: "мерч",
+    link: "#merch",
+  },
+  {
+    name: "озвучка",
+    link: "#audio",
+  },
+  {
+    name: "реклама",
+    link: "#advertising",
+  },
+];
+---
+
+<nav class="navigation">
+  <ul class="navigation__list">
+    {
+      navigation.map((item) => (
+        <li class="navigation__item">
+          <a class="navigation__link" href={item.link}>
+            {item.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style lang="scss">
+  .navigation {
+    border: 1px solid #fff;
+    padding: 8px 9px;
+    width: 100%;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .navigation__list {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .navigation__item {
+  }
+  .navigation__link {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 300;
+  }
+</style>

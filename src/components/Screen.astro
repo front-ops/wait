@@ -1,0 +1,63 @@
+---
+import miniLogo from "../assets/img/mini-logo.png";
+import Navigation from "./Navigation.astro";
+---
+
+<section class="screen">
+  <div class="screen__content container">
+    <div class="screen__logo">
+      <img class="screen__logo-image" src={miniLogo.src} alt="Ohwait" />
+      <span class="screen__logo-text">диджитал агентство<br>+ дизайн студия</span>
+    </div>
+    <Navigation />
+  </div>
+
+  <spline-viewer class="spline-viewer" url="https://prod.spline.design/UO8oLo9Wgz7Qvhj8/scene.splinecode"></spline-viewer>
+</section>
+
+<style lang="scss">
+  .screen {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135.1deg, #0a00dd 20.16%, #000000 77.63%);
+  }
+
+  .spline-viewer {
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .screen__content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    padding-top: 32px;
+    padding-bottom: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .screen__logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .screen__logo-image {
+    margin-right: 20px; // Добавьте отступ между логотипом и текстом
+  }
+
+  .screen__logo-text {
+    margin-top: 6px;
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+</style>
+

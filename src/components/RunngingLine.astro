@@ -1,0 +1,49 @@
+---
+const words = ["креатив", "деньги", "маркетинг"];
+---
+
+<div class="running-line">
+  <div class="running-line__text">
+    {words.map((word) => <span>{word}</span>)}
+  </div>
+</div>
+
+<style lang="scss">
+  .running-line {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    font-size: 84px;
+    padding: 0 0.5em;
+    width: 100%;
+    height: 136px;
+
+    background: linear-gradient(90deg, #ff0033 0%, #0a00dd 100%);
+  }
+
+  .running-line__text {
+    display: flex;
+    white-space: nowrap;
+    animation: runningLine 40s linear infinite;
+    &>span {
+      margin-right: 0.5em;
+    }
+  }
+
+  @keyframes runningLine {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>
+
+<script>
+  const runningLine = document.querySelector('.running-line__text');
+  if (runningLine) {
+    const clone = runningLine.cloneNode(true);
+    runningLine.after(clone);
+  }
+</script>
