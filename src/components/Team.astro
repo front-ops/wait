@@ -10,218 +10,147 @@ const team = await getCollection('team');
         <ArrowIcon direction="bottom" /> <span>Посмотрите, какие крутые ребята 
             у нас работают</span>
     </div>
-    <div class="team-carousel-container">
-        <button class="carousel-button prev">←</button>
-        <div class="team-list">
+    <div class="team-carousel-wrapper">
+        <button class="carousel-button prev"><svg width="33" height="41" viewBox="0 0 33 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M-9.1906e-07 21.0256L33 0L25.5484 21.0256L33 41L-9.1906e-07 21.0256Z" fill="#D9D9D9"/>
+            </svg>
+        </button>
+        <div class="team-carousel-container">
+            <div class="team-list" data-motion>
             {team.map(item => (
                 <div class="team-item">
                     <img src={item.data.imageSrc} alt={item.data.firstName + " " + item.data.lastName} class="team-item-img" />
                     <div class="team-item-name">{item.data.lastName && <span>{item.data.lastName}</span>} <span>{item.data.firstName}</span></div>
                     <div class="team-item-position">{item.data.position}</div>
                 </div>
-            ))}
+                ))}
+            </div>
         </div>
-        <button class="carousel-button next">→</button>
+        <button class="carousel-button next">
+            <svg width="33" height="41" viewBox="0 0 33 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M33 19.9744L0 41L7.45161 19.9744L-1.79217e-06 0L33 19.9744Z" fill="#D9D9D9"/>
+            </svg>
+        </button>
     </div>
 </div>
 
 <script>
-    import { gsap } from 'gsap';
-    import { Draggable } from 'gsap/Draggable';
+  const carousel = document.querySelector('.team-list');
+  const items = carousel.querySelectorAll('.team-item');
+  const prevBtn = document.querySelector('.carousel-button.prev');
+  const nextBtn = document.querySelector('.carousel-button.next');
+  
+  let currentIndex = 0;
+  const getItemsPerSlide = () => {
+    if (window.innerWidth <= 768) return 1;
+    if (window.innerWidth <= 1024) return 2;
+    return 4;
+  };
+  
+  let itemsPerSlide = getItemsPerSlide();
+  
+  function updateCarousel() {
+    const offset = -currentIndex * (100 / itemsPerSlide);
+    carousel.style.transform = `translateX(${offset}%)`;
+  }
 
-    gsap.registerPlugin(Draggable);
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCarousel();
+    }
+  });
 
-    const initCarousel = () => {
-        const list = document.querySelector('.team-list');
-        const items = gsap.utils.toArray('.team-item');
-        const buttons = document.querySelectorAll('.carousel-button');
-        
-        let itemWidth = items[0].offsetWidth;
-        let currentIndex = 0;
-        let slidesToShow = window.innerWidth > 1024 ? 4 : window.innerWidth > 768 ? 2 : 1;
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < items.length - itemsPerSlide) {
+      currentIndex++;
+      updateCarousel();
+    }
+  });
 
-        // Обновляем ширину при ресайзе
-        window.addEventListener('resize', () => {
-            itemWidth = items[0].offsetWidth;
-            slidesToShow = window.innerWidth > 1024 ? 4 : window.innerWidth > 768 ? 2 : 1;
-        });
-
-        // Настраиваем кнопки
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                if (button.classList.contains('prev')) {
-                    currentIndex = Math.max(currentIndex - 1, 0);
-                } else {
-                    currentIndex = Math.min(currentIndex + 1, items.length - slidesToShow);
-                }
-                
-                gsap.to(list, {
-                    duration: 0.5,
-                    x: -currentIndex * itemWidth,
-                    ease: 'power2.out'
-                });
-            });
-        });
-
-        // Добавляем драг
-        Draggable.create(list, {
-            type: 'x',
-            inertia: true,
-            bounds: {
-                minX: -(items.length - slidesToShow) * itemWidth,
-                maxX: 0
-            },
-            edgeResistance: 0.65,
-        });
-    };
-
-    // Инициализируем карусель после загрузки DOM
-    document.addEventListener('DOMContentLoaded', initCarousel);
+  window.addEventListener('resize', () => {
+    const newItemsPerSlide = getItemsPerSlide();
+    if (newItemsPerSlide !== itemsPerSlide) {
+      itemsPerSlide = newItemsPerSlide;
+      currentIndex = 0;
+      updateCarousel();
+    }
+  });
 </script>
 
 <style lang="scss">
     .team-container {
-        padding-top: 100px;
-        padding-bottom: 100px;
-        min-height: 100vh;
-        background: linear-gradient(193.78deg, #0A00DD 50%,  #050077 90%);
+        min-height: 824px;
+        height: 100vh;
+        background: linear-gradient(180deg, #0A00DD 0%, #050077 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
+
     .team-header {
         display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 300;
-        font-size: 16px;
-        line-height: 19px;
-        letter-spacing: 0.05em;
-        text-transform: lowercase;
-        color: #FFFFFF;
-        margin-bottom: 150px;
-
-        // Добавляем адаптивность для мобильных устройств
-        @media (max-width: 768px) {
-            margin-bottom: 50px;
-            font-size: 14px;
-        }
-    }
-
-    .team-list {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-
-        // Изменяем сетку для планшетов и мобильных устройств
-        @media (max-width: 1024px) {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        @media (max-width: 768px) {
-            grid-template-columns: 1fr;
-        }
+        align-items: baseline;
+        gap: 1rem;
+        align-self: flex-start;
     }
 
     .team-item-img {
-        text-align: center;
-        width: auto;
-        height: 300px;
+        width: 100%;
         object-fit: cover;
-        margin-bottom: 10px;
     }
 
-    .team-item-name {
-        font-weight: 300;
-        font-size: 30px ;
-        line-height: 37px;
-        /* or 92% */
-        text-transform: uppercase;
-        display: flex;
-        flex-direction: column;
-        color: #FFFFFF;
-        & span:first-child {
-            font-weight: 700;
-        }
-
-        // Уменьшаем размер шрифта для мобильных устройств
-        @media (max-width: 768px) {
-            font-size: 30px;
-            line-height: 28px;
-        }
-    }
-
-    // Добавляем стили для позиции сотрудника
-    .team-item-position {
-        color: #FFFFFF;
-        font-size: 16px;
-        margin-top: 5px;
-
-        @media (max-width: 768px) {
-            font-size: 14px;
-        }
-    }
-
-    // Добавляем отступы для контейнера на мобильных устройствах
-    @media (max-width: 768px) {
-        .team-container {
-            padding-top: 50px;
-            padding-bottom: 50px;
-        }
-    }
-
-    .team-carousel-container {
+    .team-carousel-wrapper {
+        width: 100%;
         position: relative;
-        overflow: hidden;
-        padding: 0 40px;
     }
 
-    .team-list {
-        display: flex;
-        gap: 20px;
-        cursor: grab;
-        user-select: none;
-        
-        &:active {
-            cursor: grabbing;
-        }
+  .team-carousel-container {
+    position: relative;
+    overflow: hidden;
+    margin: 2rem 0;
+    width: 100%;
+  }
+
+  .team-list {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+
+  .team-item {
+    flex: 0 0 calc(25%);
+    padding: 1rem;
+    
+    @media (max-width: 1024px) {
+      flex: 0 0 calc(50%);
+    }
+    
+    @media (max-width: 768px) {
+      flex: 0 0 100%;
+    }
+  }
+
+  .carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1rem;
+
+    &.prev {
+      left: -4rem;
     }
 
-    .team-item {
-        flex: 0 0 auto;
-        width: calc(25% - 15px);
-
-        @media (max-width: 1024px) {
-            width: calc(50% - 10px);
-        }
-
-        @media (max-width: 768px) {
-            width: 100%;
-        }
+    &.next {
+      right: -4rem;
     }
 
-    .carousel-button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 2;
-        background: rgba(255, 255, 255, 0.2);
-        border: none;
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: background 0.3s;
-
-        &:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        &.prev {
-            left: 0;
-        }
-
-        &.next {
-            right: 0;
-        }
+    &:hover svg path {
+      fill: #ffffff;
     }
+  }
 </style>
