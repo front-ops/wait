@@ -10,16 +10,74 @@ const team = await getCollection('team');
         <ArrowIcon direction="bottom" /> <span>Посмотрите, какие крутые ребята 
             у нас работают</span>
     </div>
-    <div class="team-list">
-        {team.map(item => (
-            <div class="team-item">
-                <img src={item.data.imageSrc} alt={item.data.firstName + " " + item.data.lastName} class="team-item-img" />
-                <div class="team-item-name">{item.data.lastName && <span>{item.data.lastName}</span>} <span>{item.data.firstName}</span></div>
-                <div class="team-item-position">{item.data.position}</div>
-            </div>
-        ))}
+    <div class="team-carousel-container">
+        <button class="carousel-button prev">←</button>
+        <div class="team-list">
+            {team.map(item => (
+                <div class="team-item">
+                    <img src={item.data.imageSrc} alt={item.data.firstName + " " + item.data.lastName} class="team-item-img" />
+                    <div class="team-item-name">{item.data.lastName && <span>{item.data.lastName}</span>} <span>{item.data.firstName}</span></div>
+                    <div class="team-item-position">{item.data.position}</div>
+                </div>
+            ))}
+        </div>
+        <button class="carousel-button next">→</button>
     </div>
 </div>
+
+<script>
+    import { gsap } from 'gsap';
+    import { Draggable } from 'gsap/Draggable';
+
+    gsap.registerPlugin(Draggable);
+
+    const initCarousel = () => {
+        const list = document.querySelector('.team-list');
+        const items = gsap.utils.toArray('.team-item');
+        const buttons = document.querySelectorAll('.carousel-button');
+        
+        let itemWidth = items[0].offsetWidth;
+        let currentIndex = 0;
+        let slidesToShow = window.innerWidth > 1024 ? 4 : window.innerWidth > 768 ? 2 : 1;
+
+        // Обновляем ширину при ресайзе
+        window.addEventListener('resize', () => {
+            itemWidth = items[0].offsetWidth;
+            slidesToShow = window.innerWidth > 1024 ? 4 : window.innerWidth > 768 ? 2 : 1;
+        });
+
+        // Настраиваем кнопки
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.classList.contains('prev')) {
+                    currentIndex = Math.max(currentIndex - 1, 0);
+                } else {
+                    currentIndex = Math.min(currentIndex + 1, items.length - slidesToShow);
+                }
+                
+                gsap.to(list, {
+                    duration: 0.5,
+                    x: -currentIndex * itemWidth,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Добавляем драг
+        Draggable.create(list, {
+            type: 'x',
+            inertia: true,
+            bounds: {
+                minX: -(items.length - slidesToShow) * itemWidth,
+                maxX: 0
+            },
+            edgeResistance: 0.65,
+        });
+    };
+
+    // Инициализируем карусель после загрузки DOM
+    document.addEventListener('DOMContentLoaded', initCarousel);
+</script>
 
 <style lang="scss">
     .team-container {
@@ -107,6 +165,63 @@ const team = await getCollection('team');
         .team-container {
             padding-top: 50px;
             padding-bottom: 50px;
+        }
+    }
+
+    .team-carousel-container {
+        position: relative;
+        overflow: hidden;
+        padding: 0 40px;
+    }
+
+    .team-list {
+        display: flex;
+        gap: 20px;
+        cursor: grab;
+        user-select: none;
+        
+        &:active {
+            cursor: grabbing;
+        }
+    }
+
+    .team-item {
+        flex: 0 0 auto;
+        width: calc(25% - 15px);
+
+        @media (max-width: 1024px) {
+            width: calc(50% - 10px);
+        }
+
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+
+    .carousel-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 0.3s;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        &.prev {
+            left: 0;
+        }
+
+        &.next {
+            right: 0;
         }
     }
 </style>
