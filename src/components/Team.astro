@@ -11,8 +11,8 @@ const team = await getCollection('team');
             у нас работают</span>
     </div>
     <div class="team-carousel-wrapper">
-        <button class="carousel-button prev"><svg width="33" height="41" viewBox="0 0 33 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M-9.1906e-07 21.0256L33 0L25.5484 21.0256L33 41L-9.1906e-07 21.0256Z" fill="#D9D9D9"/>
+        <button class="carousel-button prev" disabled><svg width="33" height="41" viewBox="0 0 33 41" xmlns="http://www.w3.org/2000/svg">
+            <path d="M-9.1906e-07 21.0256L33 0L25.5484 21.0256L33 41L-9.1906e-07 21.0256Z" fill="currentColor"/>
             </svg>
         </button>
         <div class="team-carousel-container">
@@ -27,8 +27,8 @@ const team = await getCollection('team');
             </div>
         </div>
         <button class="carousel-button next">
-            <svg width="33" height="41" viewBox="0 0 33 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M33 19.9744L0 41L7.45161 19.9744L-1.79217e-06 0L33 19.9744Z" fill="#D9D9D9"/>
+            <svg width="33" height="41" viewBox="0 0 33 41" xmlns="http://www.w3.org/2000/svg">
+                <path d="M33 19.9744L0 41L7.45161 19.9744L-1.79217e-06 0L33 19.9744Z" fill="currentColor"/>
             </svg>
         </button>
     </div>
@@ -52,6 +52,9 @@ const team = await getCollection('team');
   function updateCarousel() {
     const offset = -currentIndex * (100 / itemsPerSlide);
     carousel.style.transform = `translateX(${offset}%)`;
+    
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex >= items.length - itemsPerSlide;
   }
 
   prevBtn.addEventListener('click', () => {
@@ -76,6 +79,8 @@ const team = await getCollection('team');
       updateCarousel();
     }
   });
+
+  updateCarousel();
 </script>
 
 <style lang="scss">
@@ -104,6 +109,14 @@ const team = await getCollection('team');
     .team-carousel-wrapper {
         width: 100%;
         position: relative;
+    }
+
+    .team-item-name {
+        margin-top: 1rem;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 28px;
+        text-transform: uppercase;
     }
 
   .team-carousel-container {
@@ -140,6 +153,9 @@ const team = await getCollection('team');
     border: none;
     cursor: pointer;
     padding: 1rem;
+    color: #fff;
+    opacity: 0.8;
+    transition: opacity 0.3s ease-in-out;
 
     &.prev {
       left: -4rem;
@@ -149,8 +165,13 @@ const team = await getCollection('team');
       right: -4rem;
     }
 
-    &:hover svg path {
-      fill: #ffffff;
+    &:hover {
+        opacity: 1;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
     }
   }
 </style>
