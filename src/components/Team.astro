@@ -80,6 +80,41 @@ const team = await getCollection('team');
     }
   });
 
+  // Добавляем переменные для отслеживания свайпов
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  // Добавляем обработчики событий для свайпов
+  carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  });
+  
+  carousel.addEventListener('touchmove', (e) => {
+    e.preventDefault(); // Предотвращаем прокрутку страницы при свайпе
+  });
+  
+  carousel.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].clientX;
+    handleSwipe();
+  });
+  
+  function handleSwipe() {
+    const swipeThreshold = 50; // Минимальное расстояние для свайпа
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0 && currentIndex < items.length - itemsPerSlide) {
+        // Свайп влево
+        currentIndex++;
+        updateCarousel();
+      } else if (diff < 0 && currentIndex > 0) {
+        // Свайп вправо
+        currentIndex--;
+        updateCarousel();
+      }
+    }
+  }
+
   updateCarousel();
 </script>
 
@@ -172,6 +207,10 @@ const team = await getCollection('team');
     &:disabled {
       opacity: 0.5;
       cursor: default;
+    }
+
+    @media (max-width: 768px) {
+        display: none;
     }
   }
 </style>
