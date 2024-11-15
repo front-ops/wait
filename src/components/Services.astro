@@ -221,6 +221,7 @@ const services = [
                 }
             }
         });
+        updateNavigation(0);
     }
 
     function initMobileVersion() {
@@ -242,18 +243,30 @@ const services = [
             },
             snap: {
                 x: function(endValue) {
-                    return Math.round(endValue / window.innerWidth) * window.innerWidth;
+                    const slideWidth = window.innerWidth;
+                    const currentSlide = Math.round(Math.abs(endValue) / slideWidth);
+                    return -currentSlide * slideWidth;
                 }
             },
             onDrag: function() {
                 const progress = Math.abs(this.x) / (window.innerWidth * (totalSlides - 1));
-                const activeIndex = Math.round(progress * (totalSlides - 1));
+                const activeIndex = Math.min(Math.round(progress * (totalSlides - 1)), totalSlides - 1);
                 updateNavigation(activeIndex);
             },
+            onDragEnd: function() {
+                const progress = Math.abs(this.x) / (window.innerWidth * (totalSlides - 1));
+                const activeIndex = Math.min(Math.round(progress * (totalSlides - 1)), totalSlides - 1);
+                gsap.to('.services-carousel', {
+                    x: -activeIndex * window.innerWidth,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            },
             minimumMovement: 0.5,
-            throwResistance: 1500,
-            overshootTolerance: 0.2
+            throwResistance: 3000,
+            overshootTolerance: 0.5
         })[0];
+        updateNavigation(0);
     }
 
     function updateNavigation(activeIndex) {
@@ -273,6 +286,7 @@ const services = [
             initDesktopVersion();
         }
         ScrollTrigger.update();
+        updateNavigation(0);
     }
 
     // Инициализация при загрузке
