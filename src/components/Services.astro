@@ -12,7 +12,7 @@ const services = [
     },
     {
         title: 'Мерч',
-        description: `А ещё мы шьем классный мерч.  Берем на себя всю головную боль от разработки лекал, этикеток, выбору тканей и заканчивая доставкой  С вас согласование и оплата`,
+        description: `А ещё мы шьем классный мерч.  Берем на себя всю головную боль о разработки лекал, этикеток, выбору тканей и заканчивая доставкой  С вас согласование и оплата`,
     },
     {
         title: 'Озвучка',
@@ -21,33 +21,46 @@ const services = [
 ]
 
 ---
-
-<div class="services-container">
-    <div class='services-logo container'>
-        <img src={logoText.src} alt="logo" class="" />
-    </div>
-    <div class="services-carousel">
-        {services.map((service, index) => (
-            <div class="service-slide container">
-                <p>{service.description}</p>
-                <h2>{service.title}</h2>
-            </div>
-        ))}
-    </div>
-    <div class="services-nav container">
-        {services.map((service, index) => (
-            <div class="service-nav__item" data-index={index}></div>
-        ))}
+<div class="services">
+    <div class="services-container">
+        <div class='services-logo container'>
+            <img src={logoText.src} alt="logo" class="" />
+        </div>
+        <div class="services-carousel">
+            {services.map((service, index) => (
+                <div class="service-slide container">
+                    <p>{service.description}</p>
+                    <h2>{service.title}</h2>
+                </div>
+            ))}
+        </div>
+        <div class="services-nav container">
+            {services.map((service, index) => (
+                <div class="service-nav__item" data-index={index}></div>
+            ))}
+        </div>
     </div>
 </div>
-
 <style lang="scss">
+    .services {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        @media (max-width: 767px) {
+            height: 100vh;
+            overflow: hidden;
+        }
+    }
     .services-container {
         height: 100vh;
         overflow: hidden;
         position: sticky;
         top: 0;
-        background: linear-gradient(90deg, #FF0033 0%, #0A00DD 100%)
+        background: linear-gradient(90deg, #FF0033 0%, #0A00DD 100%);
+        @media (max-width: 767px) {
+            position: static;
+            height: 100vh;
+        }
     }
     .services-logo {
         position: absolute;
@@ -90,11 +103,15 @@ const services = [
         display: flex;
         width: 100%;
         height: 100%;
-
+        @media (max-width: 767px) {
+            
+            touch-action: pan-x;
+            will-change: transform;
+        }
     }
     .service-slide {
         flex: 0 0 100%;
-        height: 100%;
+        height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: end;
@@ -135,7 +152,7 @@ const services = [
             font-size: 3rem;
         }
         @media (max-width: 767.98px) {
-            font-size: 2.5rem;
+            font-size: 2rem;
         }
     }
     p {
@@ -144,8 +161,14 @@ const services = [
             font-size: 1.25rem;
         }
         @media (max-width: 767.98px) {
-            font-size: 1rem;
+            font-size: 0.875rem;
+            line-height: 1.4;
         }
+    }
+
+    @media (max-width: 767px) {
+        padding-bottom: 80px;
+        justify-content: center;
     }
 
     }
@@ -157,50 +180,115 @@ const services = [
 <script>
     import { gsap } from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { Draggable } from "gsap/Draggable";
 
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger, Draggable);
 
     const slides = document.querySelectorAll('.service-slide');
     const navItems = document.querySelectorAll('.service-nav__item');
-
+    const carousel = document.querySelector('.services-carousel');
     const totalSlides = slides.length;
 
-    gsap.to('.services-carousel', {
-        x: () => -(100 * (totalSlides - 1)) + '%',
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".services-container",
-            start: "top top",
-            end: () => "+=" + (100 * totalSlides) + "%",
-            scrub: 0.5,
-            pin: true,
-            anticipatePin: 1,
-            snap: {
-                snapTo: 1 / (totalSlides - 1),
-                duration: { min: 0.2, max: 0.3 },
-                delay: 0.2,
-                ease: "power1.inOut"
-            },
-            onUpdate: (self) => {
-                const activeIndex = Math.round(self.progress * (totalSlides - 1));
-                navItems.forEach((item, index) => {
-                    if (index <= activeIndex) {
-                        item.classList.add('active');
-                    } else {
-                        item.classList.remove('active');
-                    }
-                });
-            }
-        }
-    });
+    let scrollTriggerInstance;
+    let draggableInstance;
 
-    // Добавьте эту функцию для обновления ScrollTrigger при изменении размера окна
-    function updateScrollTrigger() {
+    function initDesktopVersion() {
+        if (draggableInstance) {
+            draggableInstance.kill();
+            draggableInstance = null;
+            gsap.set('.services-carousel', { x: 0 });
+        }
+
+        scrollTriggerInstance = gsap.to('.services-carousel', {
+            x: () => -(100 * (totalSlides - 1)) + '%',
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".services-container",
+                start: "top top",
+                end: () => "+=" + (100 * totalSlides) + "%",
+                scrub: 0.5,
+                pin: true,
+                anticipatePin: 1,
+                snap: {
+                    snapTo: 1 / (totalSlides - 1),
+                    duration: { min: 0.2, max: 0.3 },
+                    delay: 0.2,
+                    ease: "power1.inOut"
+                },
+                onUpdate: (self) => {
+                    const activeIndex = Math.round(self.progress * (totalSlides - 1));
+                    updateNavigation(activeIndex);
+                }
+            }
+        });
+    }
+
+    function initMobileVersion() {
+        if (scrollTriggerInstance) {
+            scrollTriggerInstance.scrollTrigger.kill();
+            scrollTriggerInstance = null;
+        }
+
+        gsap.set('.services-carousel', { x: 0 });
+
+        draggableInstance = Draggable.create('.services-carousel', {
+            type: "x",
+            inertia: true,
+            edgeResistance: 0.65,
+            dragResistance: 0.05,
+            bounds: {
+                minX: -window.innerWidth * (totalSlides - 1),
+                maxX: 0
+            },
+            snap: {
+                x: function(endValue) {
+                    return Math.round(endValue / window.innerWidth) * window.innerWidth;
+                }
+            },
+            onDrag: function() {
+                const progress = Math.abs(this.x) / (window.innerWidth * (totalSlides - 1));
+                const activeIndex = Math.round(progress * (totalSlides - 1));
+                updateNavigation(activeIndex);
+            },
+            minimumMovement: 0.5,
+            throwResistance: 1500,
+            overshootTolerance: 0.2
+        })[0];
+    }
+
+    function updateNavigation(activeIndex) {
+        navItems.forEach((item, index) => {
+            if (index <= activeIndex) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    function handleResize() {
+        if (window.innerWidth < 768) {
+            initMobileVersion();
+        } else {
+            initDesktopVersion();
+        }
         ScrollTrigger.update();
     }
 
-    // Добавьте слушатель события изменения размера окна
-    window.addEventListener('resize', updateScrollTrigger);
+    // Инициализация при загрузке
+    handleResize();
 
+    // Обработка изменения размера окна
+    window.addEventListener('resize', handleResize);
 </script>
+
+<style>
+    @media (max-width: 767px) {
+        .services-container {
+            position: relative !important;
+            height: auto !important;
+            overflow: visible !important;
+        }
+    }
+</style>
 

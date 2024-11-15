@@ -7,12 +7,18 @@ import Navigation from "./Navigation.astro";
   <div class="screen__content container">
     <div class="screen__logo">
       <img class="screen__logo-image" src={miniLogo.src} alt="Ohwait" />
-      <span class="screen__logo-text">диджитал агентство<br>+ дизайн студия</span>
+      <span class="screen__logo-text"
+        >диджитал агентство<br />+ дизайн студия</span
+      >
     </div>
     <Navigation />
   </div>
 
-  <spline-viewer class="spline-viewer" loading-anim-type="spinner-big-light" url="https://prod.spline.design/UO8oLo9Wgz7Qvhj8/scene.splinecode"></spline-viewer>
+  <spline-viewer
+    class="spline-viewer"
+    loading-anim-type="spinner-big-light"
+    url="https://prod.spline.design/UO8oLo9Wgz7Qvhj8/scene.splinecode"
+  ></spline-viewer>
 </section>
 
 <style lang="scss">
@@ -25,7 +31,7 @@ import Navigation from "./Navigation.astro";
 
   .spline-viewer {
     position: absolute;
-    top:50%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
@@ -60,4 +66,3 @@ import Navigation from "./Navigation.astro";
     letter-spacing: 0.05em;
   }
 </style>
-
