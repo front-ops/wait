@@ -18,7 +18,7 @@ const { title } = Astro.props;
   </head>
   <body class="max-screen-size">
     <slot />
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
+    <script is:inline type="module" src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
 
   </body>
 </html>
@@ -52,7 +52,7 @@ const { title } = Astro.props;
     console.log(e);
   });
 
-  function raf(time) {
+  function raf(time: number) {
     lenis.raf(time);
     requestAnimationFrame(raf);
   }

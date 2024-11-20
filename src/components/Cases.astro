@@ -1,9 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import img1 from '../assets/img/cases/img1.png';
-import img2 from '../assets/img/cases/img2.png';
-import img3 from '../assets/img/cases/img3.png';
-    // import img4 from '../assets/img/cases/img4.png';
 import ArrowIcon from './icons/Arrow-icon.astro';
 
 const cases = await getCollection('cases');
@@ -21,14 +17,6 @@ const cases = await getCollection('cases');
                 <span class="cases__item-description">{caseItem.data.description}</span>
             </div>
         ))}
-        <!-- <div class="cases__item cases__item--image-3" style={'background-image: url(' + img3.src + ')'}>
-            <span class="cases__item-title">Вписка<br>kata academy</span>
-            <span class="cases__item-description">10 млн просмотров<br>KPI 400%</span>
-        </div>
-        <div class="cases__item cases__item--image-4 container" style={'background-image: url(' + img4.src + ')'}>
-            <span class="cases__item-title">Здесь будет ваш кейс</span>
-            <a href="/" class="cases__item-description">Добавьте ваш кейс на главную</span>
-        </div> -->
     </div>
 </div>
 

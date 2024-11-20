@@ -27,16 +27,16 @@ const services = [
             <img src={logoText.src} alt="logo" class="" />
         </div>
         <div class="services-carousel">
-            {services.map((service, index) => (
+            {services.map((_service, i) => (
                 <div class="service-slide container">
-                    <p>{service.description}</p>
-                    <h2>{service.title}</h2>
+                    <p>{services[i].description}</p>
+                    <h2>{services[i].title}</h2>
                 </div>
             ))}
         </div>
         <div class="services-nav container">
-            {services.map((service, index) => (
-                <div class="service-nav__item" data-index={index}></div>
+            {services.map((_service, i) => (
+                <div class="service-nav__item" data-index={i}></div>
             ))}
         </div>
     </div>
@@ -186,11 +186,10 @@ const services = [
 
     const slides = document.querySelectorAll('.service-slide');
     const navItems = document.querySelectorAll('.service-nav__item');
-    const carousel = document.querySelector('.services-carousel');
     const totalSlides = slides.length;
 
-    let scrollTriggerInstance;
-    let draggableInstance;
+    let scrollTriggerInstance: gsap.core.Tween | null = null;
+    let draggableInstance: Draggable | null = null;
 
     function initDesktopVersion() {
         if (draggableInstance) {
@@ -269,7 +268,7 @@ const services = [
         updateNavigation(0);
     }
 
-    function updateNavigation(activeIndex) {
+    function updateNavigation(activeIndex: number) {
         navItems.forEach((item, index) => {
             if (index <= activeIndex) {
                 item.classList.add('active');

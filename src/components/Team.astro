@@ -35,10 +35,10 @@ const team = await getCollection('team');
 </div>
 
 <script>
-  const carousel = document.querySelector('.team-list');
+  const carousel = document.querySelector('.team-list') as HTMLElement;
   const items = carousel.querySelectorAll('.team-item');
-  const prevBtn = document.querySelector('.carousel-button.prev');
-  const nextBtn = document.querySelector('.carousel-button.next');
+  const prevBtn = document.querySelector('.carousel-button.prev') as HTMLButtonElement;
+  const nextBtn = document.querySelector('.carousel-button.next') as HTMLButtonElement;
   
   let currentIndex = 0;
   const getItemsPerSlide = () => {
@@ -85,15 +85,15 @@ const team = await getCollection('team');
   let touchEndX = 0;
   
   // Добавляем обработчики событий для свайпов
-  carousel.addEventListener('touchstart', (e) => {
+  carousel.addEventListener('touchstart', (e: TouchEvent) => {
     touchStartX = e.touches[0].clientX;
   });
   
-  carousel.addEventListener('touchmove', (e) => {
+  carousel.addEventListener('touchmove', (e: TouchEvent) => {
     e.preventDefault(); // Предотвращаем прокрутку страницы при свайпе
   });
   
-  carousel.addEventListener('touchend', (e) => {
+  carousel.addEventListener('touchend', (e: TouchEvent) => {
     touchEndX = e.changedTouches[0].clientX;
     handleSwipe();
   });

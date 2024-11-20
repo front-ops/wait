@@ -1,7 +1,6 @@
 ---
 import ArrowIcon from "./icons/Arrow-icon.astro";
 
-const kpiValue = "172%";
 const clients = [
 `Т-банк`, 'Самокат', 'Lamoda', 'Skillfactory', 'Центральный университет Skillbox', 'Останкино', 'Tasty Coffee', 'Skyeng', 'DNS Kata Academy', 'TNT Premiere', 'Flor2You', 'Aliexpress', 'zewa'
 ];
@@ -39,7 +38,7 @@ const clients = [
   gsap.registerPlugin(ScrollTrigger);
 
   const kpiElement = document.getElementById("kpiValue");
-  const kpiTargetValue = parseInt(kpiElement.textContent);
+  // const kpiTargetValue = parseInt(kpiElement.textContent); 
 
   gsap.to(kpiElement, {
     innerHTML: 172,
@@ -58,12 +57,12 @@ const clients = [
   });
 
   // Анимация списка клиентов
-  const clientItems = gsap.utils.toArray('.client-item');
+  const clientItems = gsap.utils.toArray<HTMLElement>('.client-item');
   
   clientItems.forEach((item, index) => {
-    gsap.set(item, { opacity: 0, y: 20 });
+    gsap.set(item as HTMLElement, { opacity: 0, y: 20 });
     
-    gsap.to(item, {
+    gsap.to(item as HTMLElement, {
       opacity: 1,
       y: 0,
       duration: 0.5,
