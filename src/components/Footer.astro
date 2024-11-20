@@ -14,7 +14,7 @@ import logoText from "../assets/img/logo-text.png";
     .footer {
         background: #000;
         color: #fff;
-        padding: 20px;
+        padding: clamp(1rem, 3vw, 2rem);
         height: 100vh;
         position: fixed;
         bottom: 0;
@@ -22,14 +22,34 @@ import logoText from "../assets/img/logo-text.png";
         right: 0;
         width: 100%;
         z-index: 0;
+
+        @media (max-width: 768px) {
+            height: auto;
+            min-height: 100vh;
+        }
     }
 
     .footer-placeholder {
         height: 100vh;
+        
+        @media (max-width: 768px) {
+            height: auto;
+            min-height: 100vh;
+        }
     }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
     .footer-logo {
         user-select: none;
         pointer-events: none;
         -webkit-user-drag: none;
+        max-width: 100%;
+        height: auto;
+        width: clamp(200px, 30vw, 400px);
     }
 </style>
