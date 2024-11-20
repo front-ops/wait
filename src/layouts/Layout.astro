@@ -1,48 +1,20 @@
 ---
+import BaseHead from '../components/BaseHead.astro';
 interface Props {
   title: string;
 }
 
-const { title } = Astro.props;
+const SITE_TITLE = "Oh Wait"
 ---
 
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-  </head>
+	<BaseHead title={SITE_TITLE} description="Диджитал агентство + дизайн студия"></BaseHead>
   <body class="max-screen-size">
     <slot />
     <script is:inline type="module" src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
-
   </body>
 </html>
-<style is:global>
-  @font-face {
-    font-family: "Phonk Sans";
-    src:
-      url("/fonts/PhonkSans-Bold.woff2") format("woff2"),
-      url("/fonts/PhonkSans-Bold.woff") format("woff");
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Phonk Sans";
-    src:
-      url("/fonts/PhonkSans-Light.woff2") format("woff2"),
-      url("/fonts/PhonkSans-Light.woff") format("woff");
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-  }
-</style>
 
 <script>
   import Lenis from "lenis";
